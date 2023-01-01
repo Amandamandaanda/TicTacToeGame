@@ -116,6 +116,8 @@ public class TicTacToeGame {
             }
             //Kollar alla möjliga olika vinstkombinationer för att få tre i rad och jämför det med playerPiece
             //då det motsvarar den spelaren som kontrolleras
+            //Hade kanske varit bättre med en 2D array för att skriva in alla vinster och sean loopa igenom
+            //och se om spelaren har sina symboler i den, men på grund av tidsbrist har jag inte hunnit testa
             if (gameBoard[0] == playerPiece && gameBoard[1] == playerPiece && gameBoard[2] == playerPiece ||
                     gameBoard[3] == playerPiece && gameBoard[4] == playerPiece && gameBoard[5] == playerPiece ||
                     gameBoard[6] == playerPiece && gameBoard[7] == playerPiece && gameBoard[8] == playerPiece ||
