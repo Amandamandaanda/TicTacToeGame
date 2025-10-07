@@ -8,7 +8,7 @@ public class TicTacToeGame {
         System.out.println(gameBoard[3] + " | " + gameBoard[4] + " | " + gameBoard[5]);
         System.out.println("--+---+--");
         System.out.println(gameBoard[6] + " | " + gameBoard[7] + " | " + gameBoard[8]);
-    }
+    } //Skapar en array av typen char som kan innehålla 9 tecken
     public static char[] gameBoard = new char[9];
     //Skapar en scanner för att kunna läsa spelarens val
     Scanner scanner = new Scanner(System.in);
