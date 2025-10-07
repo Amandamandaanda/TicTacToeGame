@@ -1,7 +1,7 @@
 package TicTacToe;
 import java.util.Scanner;
 public class TicTacToeGame {
-    //Gör en array för spelplattorna samt skriver ut spelplanen
+    //Gör en metod för spelplattorna samt skriver ut spelplanen
     public void DrawGameBoard() {
         System.out.println(gameBoard[0] + " | " + gameBoard[1] + " | " + gameBoard[2]);
         System.out.println("--+---+--");
