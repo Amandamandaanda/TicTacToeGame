@@ -1,14 +1,14 @@
 package TicTacToe;
 import java.util.Scanner;
 public class TicTacToeGame {
-    //Gör en metod för spelplattorna samt skriver ut spelplanen
+    //Gör en array för spelplattorna samt skriver ut spelplanen
     public void DrawGameBoard() {
         System.out.println(gameBoard[0] + " | " + gameBoard[1] + " | " + gameBoard[2]);
         System.out.println("--+---+--");
         System.out.println(gameBoard[3] + " | " + gameBoard[4] + " | " + gameBoard[5]);
         System.out.println("--+---+--");
         System.out.println(gameBoard[6] + " | " + gameBoard[7] + " | " + gameBoard[8]);
-    } //Skapar en array av typen char som kan innehålla 9 tecken
+    }
     public static char[] gameBoard = new char[9];
     //Skapar en scanner för att kunna läsa spelarens val
     Scanner scanner = new Scanner(System.in);
