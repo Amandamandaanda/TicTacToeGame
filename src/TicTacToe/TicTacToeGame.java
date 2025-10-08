@@ -1,6 +1,23 @@
 package TicTacToe;
 import java.util.Scanner;
 public class TicTacToeGame {
+    //Skapar en array för att hålla reda på om en plats i spelbrädet är upptaget eller tom,
+    //Arrayen har 9 tecken som motsvarar en ruta i spelet
+    private static char[] gameBoard = new char[9];
+    //Skapar ett nytt objekt av ScannerHandlingklassen som ska läsa inmatning från spelaren
+    private ScannerHandling scanner = new ScannerHandling();
+    //Återställer spelplanen
+    private void resetGameBoard() {
+        //For-loopen går igenom hela arrayen av spelet
+        for (int i = 0; i < TicTacToeGame.gameBoard.length; i++) {
+            //Sätter varje rute till ett tomt tecken = ' '
+            TicTacToeGame.gameBoard[i] = ' ';
+        }
+    }
+    //Skapar en boolean som gör att while-looparna fortsätter så länge condition:et är sant,
+    //så länge spelet är igång
+    boolean gameIsOn = true;
+
     //Gör en array för spelplattorna samt skriver ut spelplanen
     public void DrawGameBoard() {
         System.out.println(gameBoard[0] + " | " + gameBoard[1] + " | " + gameBoard[2]);
@@ -9,21 +26,14 @@ public class TicTacToeGame {
         System.out.println("--+---+--");
         System.out.println(gameBoard[6] + " | " + gameBoard[7] + " | " + gameBoard[8]);
     }
-    public static char[] gameBoard = new char[9];
-    //Skapar en scanner för att kunna läsa spelarens val
-    Scanner scanner = new Scanner(System.in);
-    //Skapar en boolean som gör att while-looparna fortsätter så länge condition:et är sant,
-    //en för så länge spelet är igång och en för att starta om spelet
-    boolean gameIsOn = true;
-    boolean resetGame = true;
     //Skapar spelare X och spelare O i en enum, som är en speciell klass som representerar
     //en grupp konstanter
-    enum currentPlayer {
+    enum player {
         PLAYER_X,
         PLAYER_O
     }
     //Anger vilken spelare som startar spelet
-    currentPlayer player = currentPlayer.PLAYER_X;
+    player currentPlayer = player.PLAYER_X;
     //Kör spelet i en loop så det kan startas om
     public void startGame() {
         //rensar spelplanen
@@ -33,15 +43,14 @@ public class TicTacToeGame {
             gameIsOn = true;
             //Sätter int count till 0 så den kan räkna hur många drag som görs tills det blir oavgjort
             int count = 0;
-            player = currentPlayer.PLAYER_X;
+            currentPlayer = player.PLAYER_X;
 
             while (gameIsOn) {
                 //anropar och skriver ut spelplanen
                 DrawGameBoard();
-                //Ber spelaren välja en plats mellan 1-9
-                System.out.println(player + " Enter your placement 1-9");
-                //Läser in användarens spelval och sparar det i variabeln placement
-                int placement = scanner.nextInt();
+                //Anropar metoden getPlayersPlacement för att skicka med currentPlayer som sträng
+                //samt kunna returnera spelaren val av position
+                int placement = scanner.getPlayersPlacement(currentPlayer.toString());
                 //Kollar om spelarens val (placement) är inom sifferintervallet
                 if (placement < 1 || placement > 9) {
                     System.out.println("Invalid placement number, choose between 1 and 9");
@@ -55,15 +64,15 @@ public class TicTacToeGame {
                 }
 
                 //I en switch sätts den plats spelaren valt på spelplanen in
-                switch (player) {
+                switch (currentPlayer) {
                     case PLAYER_X:
                         gameBoard[placement - 1] = 'X';
                         //här sätts spelaren till O så de kan bytas
-                        player = currentPlayer.PLAYER_O;
+                        currentPlayer = player.PLAYER_O;
                         break;
                     case PLAYER_O:
                         gameBoard[placement - 1] = 'O';
-                        player = currentPlayer.PLAYER_X;
+                        currentPlayer = player.PLAYER_X;
                         break;
                 }
                 //Ökar räknaren för att kolla antal drag ifall det blir oavgjort
@@ -106,14 +115,6 @@ public class TicTacToeGame {
                     gameIsOn = false;
                 }
             }
-        }
-    }
-    //Återställer spelplanen
-    private void resetGameBoard() {
-        //For-loopen går igenom hela arrayen av spelet
-        for (int i = 0; i < TicTacToeGame.gameBoard.length; i++) {
-            //Sätter varje rute till ett tomt tecken = ' '
-            TicTacToeGame.gameBoard[i] = ' ';
         }
     }
 }
