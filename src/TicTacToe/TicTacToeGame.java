@@ -1,20 +1,13 @@
+//Anger att klassen tillhör mappen TicTacToe
 package TicTacToe;
 import java.util.Scanner;
 public class TicTacToeGame {
     //Skapar en array för att hålla reda på om en plats i spelbrädet är upptaget eller tom,
     //Arrayen har 9 tecken som motsvarar en ruta i spelet
-    private static char[] gameBoard = new char[9];
+    private char[] gameBoard = new char[9];
     //Skapar ett nytt objekt av ScannerHandlingklassen som ska läsa inmatning från spelaren
     private ScannerHandling scanner = new ScannerHandling();
-    //Återställer spelplanen
-    private void resetGameBoard() {
-        //For-loopen går igenom hela arrayen av spelet
-        for (int i = 0; i < TicTacToeGame.gameBoard.length; i++) {
-            //Sätter varje rute till ett tomt tecken = ' '
-            TicTacToeGame.gameBoard[i] = ' ';
-        }
-    }
-    //Skapar en boolean som gör att while-looparna fortsätter så länge condition:et är sant,
+    //Skapar en boolean som gör att while-loopen fortsätter så länge condition:et är sant, dvs
     //så länge spelet är igång
     boolean gameIsOn = true;
 
@@ -36,17 +29,22 @@ public class TicTacToeGame {
     player currentPlayer = player.PLAYER_X;
     //Kör spelet i en loop så det kan startas om
     public void startGame() {
-        //rensar spelplanen
-        boolean resetGame = true;
-        while (resetGame) {
-            resetGameBoard();
+        boolean hasPlayerWon = false;
+        //Rensar spelplanen
+        boolean clearGameBoard = true;
+        //Skapar en loop som körs så spelet alltid kan starta om
+        while (clearGameBoard) {
+            //Kallar på metoden som rensar spelbrädet
+            clearGameBoard();
+            //Sätter gameIsOn till true för att starta spelet på nytt
             gameIsOn = true;
             //Sätter int count till 0 så den kan räkna hur många drag som görs tills det blir oavgjort
             int count = 0;
+            //Sätter att spelare X börjar
             currentPlayer = player.PLAYER_X;
-
+            //Loopar så länge spelet är igång
             while (gameIsOn) {
-                //anropar och skriver ut spelplanen
+                //Anropar och skriver ut spelplanen
                 DrawGameBoard();
                 //Anropar metoden getPlayersPlacement för att skicka med currentPlayer som sträng
                 //samt kunna returnera spelaren val av position
@@ -62,62 +60,84 @@ public class TicTacToeGame {
                     System.out.println("Place is taken, choose another one");
                     continue;
                 }
+                //Skapar en ny variabel för den spelaren som senast la en bricka innan spelet byter spelare,
+                player playerLastMove = currentPlayer;
 
-                //I en switch sätts den plats spelaren valt på spelplanen in
+                //Sätter spelarens symbol som är X eller O på den valda platsen i spelbrädet
                 switch (currentPlayer) {
                     case PLAYER_X:
                         gameBoard[placement - 1] = 'X';
-                        //här sätts spelaren till O så de kan bytas
+                        //Byter spelare till O
                         currentPlayer = player.PLAYER_O;
                         break;
                     case PLAYER_O:
                         gameBoard[placement - 1] = 'O';
+                        //Byter spelare till X
                         currentPlayer = player.PLAYER_X;
                         break;
                 }
                 //Ökar räknaren för att kolla antal drag ifall det blir oavgjort
                 count++;
-
-                //Kollar alla vinstkombinationer för spelare X
-                if (gameBoard[0] == 'X' && gameBoard[1] == 'X' && gameBoard[2] == 'X' ||
-                        TicTacToeGame.gameBoard[3] == 'X' && TicTacToeGame.gameBoard[4] == 'X' && TicTacToeGame.gameBoard[5] == 'X' ||
-                        TicTacToeGame.gameBoard[6] == 'X' && TicTacToeGame.gameBoard[7] == 'X' && TicTacToeGame.gameBoard[8] == 'X' ||
-                        TicTacToeGame.gameBoard[0] == 'X' && TicTacToeGame.gameBoard[3] == 'X' && TicTacToeGame.gameBoard[6] == 'X' ||
-                        TicTacToeGame.gameBoard[1] == 'X' && TicTacToeGame.gameBoard[4] == 'X' && TicTacToeGame.gameBoard[7] == 'X' ||
-                        TicTacToeGame.gameBoard[2] == 'X' && TicTacToeGame.gameBoard[5] == 'X' && TicTacToeGame.gameBoard[8] == 'X' ||
-                        TicTacToeGame.gameBoard[0] == 'X' && TicTacToeGame.gameBoard[4] == 'X' && TicTacToeGame.gameBoard[8] == 'X' ||
-                        TicTacToeGame.gameBoard[2] == 'X' && TicTacToeGame.gameBoard[4] == 'X' && TicTacToeGame.gameBoard[6] == 'X') {
-                    //Skriver ut spelplanen igen för att få en uppdaterad spelplan där man kan se vinsten
+                //Kollar om spelaren som senast la sin bricka har vunnit
+                if (checkWinner(playerLastMove)) {
+                    //Visar att en spelare har vunnit och att spelet därmed är slut
+                    hasPlayerWon = true;
+                    //Skriver ut det slutgiltliga spelbrädet
                     DrawGameBoard();
-                    System.out.println("X IS THE WINNER!!");
-                    //Sätter min boolean till false eftersom spelet är slut
+                    //Skriver ut vinnaren
+                    System.out.println(playerLastMove + " IS THE WINNER!!");
+                    //Stoppar boolean:en eftersom spelet är slut
+                    //Avslutar spelet då det finns en vinnare
                     gameIsOn = false;
                 }
-                //Kollar alla vinstkombinationer för spelare X
-                if (TicTacToeGame.gameBoard[0] == 'O' && TicTacToeGame.gameBoard[1] == 'O' && TicTacToeGame.gameBoard[2] == 'O' ||
-                        TicTacToeGame.gameBoard[3] == 'O' && TicTacToeGame.gameBoard[4] == 'O' && TicTacToeGame.gameBoard[5] == 'O' ||
-                        TicTacToeGame.gameBoard[6] == 'O' && TicTacToeGame.gameBoard[7] == 'O' && TicTacToeGame.gameBoard[8] == 'O' ||
-                        TicTacToeGame.gameBoard[0] == 'O' && TicTacToeGame.gameBoard[3] == 'O' && TicTacToeGame.gameBoard[6] == 'O' ||
-                        TicTacToeGame.gameBoard[1] == 'O' && TicTacToeGame.gameBoard[4] == 'O' && TicTacToeGame.gameBoard[7] == 'O' ||
-                        TicTacToeGame.gameBoard[2] == 'O' && TicTacToeGame.gameBoard[5] == 'O' && TicTacToeGame.gameBoard[8] == 'O' ||
-                        TicTacToeGame.gameBoard[0] == 'O' && TicTacToeGame.gameBoard[4] == 'O' && TicTacToeGame.gameBoard[8] == 'O' ||
-                        TicTacToeGame.gameBoard[2] == 'O' && TicTacToeGame.gameBoard[4] == 'O' && TicTacToeGame.gameBoard[6] == 'O') {
-                    //Skriver ut spelplanen igen för att få en uppdaterad spelplan där man kan se vinsten
+                //Kollar om alla rutor är fyllda och att det inte finns någon vinnare
+                if (count == 9 && hasPlayerWon == false) {
                     DrawGameBoard();
-                    System.out.println("O IS THE WINNER!!");
-                    //Sätter min boolean till false eftersom spelet är slut
-                    gameIsOn = false;
-                }
-                //Räknaren kollar om det blir oavgjort
-                if (count == 9) {
-                    DrawGameBoard();
-                    System.out.println("DRAW!");
+                    //Skriver ut att det blir oavgjort
+                    System.out.println("DRAW!!");
                     gameIsOn = false;
                 }
             }
         }
     }
-}
+        //Kollar om en spelare har tre av sin symbol i rad i spelarrayen
+        private boolean checkWinner(player currentPlayer) {
+            //Skapar en tom variabel som kommer innehålla symbolen för den aktuella spelaren
+            char playerPiece = ' ';
+            //Här kollar if satsen om symbolen motsvarar spelaren,
+            if (currentPlayer == player.PLAYER_X) {
+                playerPiece = 'X';
+            } else {
+                playerPiece = 'O';
+            }
+            //Kollar alla möjliga olika vinstkombinationer för att få tre i rad och jämför det med playerPiece
+            //då det motsvarar den spelaren som kontrolleras
+            if (gameBoard[0] == playerPiece && gameBoard[1] == playerPiece && gameBoard[2] == playerPiece ||
+                    gameBoard[3] == playerPiece && gameBoard[4] == playerPiece && gameBoard[5] == playerPiece ||
+                    gameBoard[6] == playerPiece && gameBoard[7] == playerPiece && gameBoard[8] == playerPiece ||
+                    gameBoard[0] == playerPiece && gameBoard[3] == playerPiece && gameBoard[6] == playerPiece ||
+                    gameBoard[1] == playerPiece && gameBoard[4] == playerPiece && gameBoard[7] == playerPiece ||
+                    gameBoard[2] == playerPiece && gameBoard[5] == playerPiece && gameBoard[8] == playerPiece ||
+                    gameBoard[0] == playerPiece && gameBoard[4] == playerPiece && gameBoard[8] == playerPiece ||
+                    gameBoard[2] == playerPiece && gameBoard[4] == playerPiece && gameBoard[6] == playerPiece) {
+                //Om spelaren har tre i rad returneras true
+                return true;
+            } else {
+                //Om ingen har vunnit returneras false
+                return false;
+            }
+        }
+            //Skapar en metod för att rensa spelplanen så den blir tom igen
+            private void clearGameBoard() {
+                //For-loopen går igenom hela arrayen av spelet
+                for (int i = 0; i < gameBoard.length; i++) {
+                    //Sätter varje rute till ett tomt tecken = ' '
+                    gameBoard[i] = ' ';
+                }
+            }
+    }
+
+
 
 
 

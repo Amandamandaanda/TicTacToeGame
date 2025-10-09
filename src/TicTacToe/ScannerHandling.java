@@ -1,3 +1,4 @@
+//Anger att klassen tillhör mappen TicTacToe
 package TicTacToe;
 
 import java.util.Scanner;

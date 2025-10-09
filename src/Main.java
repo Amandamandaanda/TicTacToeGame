@@ -1,3 +1,4 @@
+//Importerar klassen TicTacToeGame från mappen TicTacToe
 import TicTacToe.TicTacToeGame;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
