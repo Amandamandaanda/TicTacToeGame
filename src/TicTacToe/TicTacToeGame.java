@@ -1,17 +1,27 @@
 //Anger att klassen tillhör mappen TicTacToe
 package TicTacToe;
 import java.util.Scanner;
+
+//Skapar spelare X och spelare O i en enum, som är en speciell klass som representerar
+//en grupp konstanter
+enum player {
+    PLAYER_X,
+    PLAYER_O
+}
+
 public class TicTacToeGame {
     //Skapar en array för att hålla reda på om en plats i spelbrädet är upptaget eller tom,
     //Arrayen har 9 tecken som motsvarar en ruta i spelet
     private char[] gameBoard = new char[9];
-    //Skapar ett nytt objekt av ScannerHandlingklassen som ska läsa inmatning från spelaren
+    //Skapar ett nytt objekt av ScannerHandling-klassen som ska läsa inmatning från spelaren
     private ScannerHandling scanner = new ScannerHandling();
     //Skapar en boolean som gör att while-loopen fortsätter så länge condition:et är sant, dvs
     //så länge spelet är igång
-    boolean gameIsOn = true;
+    //Anger vilken som är nuvarande spelare och den som startar spelet
+    private player currentPlayer = player.PLAYER_X;
+    private boolean gameIsOn = true;
 
-    //Gör en array för spelplattorna samt skriver ut spelplanen
+    //Skriver ut spelets array för spelplattorna samt skriver ut spelplanen
     public void DrawGameBoard() {
         System.out.println(gameBoard[0] + " | " + gameBoard[1] + " | " + gameBoard[2]);
         System.out.println("--+---+--");
@@ -19,16 +29,10 @@ public class TicTacToeGame {
         System.out.println("--+---+--");
         System.out.println(gameBoard[6] + " | " + gameBoard[7] + " | " + gameBoard[8]);
     }
-    //Skapar spelare X och spelare O i en enum, som är en speciell klass som representerar
-    //en grupp konstanter
-    enum player {
-        PLAYER_X,
-        PLAYER_O
-    }
-    //Anger vilken spelare som startar spelet
-    player currentPlayer = player.PLAYER_X;
     //Kör spelet i en loop så det kan startas om
     public void startGame() {
+        //Skapar en bool för att kolla om det finns en spelare som vunnit, sätter den på false
+        //då ingen ännu har vunnit i spelets början
         boolean hasPlayerWon = false;
         //Rensar spelplanen
         boolean clearGameBoard = true;
@@ -38,9 +42,9 @@ public class TicTacToeGame {
             clearGameBoard();
             //Sätter gameIsOn till true för att starta spelet på nytt
             gameIsOn = true;
-            //Sätter int count till 0 så den kan räkna hur många drag som görs tills det blir oavgjort
+            //Skapar en int count till 0 så den kan räkna hur många drag som görs tills det blir oavgjort
             int count = 0;
-            //Sätter att spelare X börjar
+            //Sätter att spelare X alltid startar när spelet börjar
             currentPlayer = player.PLAYER_X;
             //Loopar så länge spelet är igång
             while (gameIsOn) {
@@ -52,7 +56,7 @@ public class TicTacToeGame {
                 //Kollar om spelarens val (placement) är inom sifferintervallet
                 if (placement < 1 || placement > 9) {
                     System.out.println("Invalid placement number, choose between 1 and 9");
-                    //Hoppar tillbaka till början av spelet så det kan fortsätta
+                    //Hoppar tillbaka till av spelet så det kan fortsätta
                     continue;
                 }
                 //Kollar om spelplatsen spelaren valt är upptagen
@@ -135,7 +139,7 @@ public class TicTacToeGame {
                     gameBoard[i] = ' ';
                 }
             }
-    }
+}
 
 
 

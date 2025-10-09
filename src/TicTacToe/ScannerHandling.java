@@ -1,6 +1,7 @@
 //Anger att klassen tillhör mappen TicTacToe
 package TicTacToe;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 //Skapar en klass för att kunna hantera spelarens inmatning genom scanner
 public class ScannerHandling {
@@ -16,6 +17,11 @@ public class ScannerHandling {
     //Använder currentPlayer som parameter för att visa vilken spelares tur det är
     public int getPlayersPlacement(String currentPlayer){
         System.out.println(currentPlayer + " Enter your placement 1-9");
-        return scanner.nextInt();
+        scanner = new Scanner(System.in);
+        try {
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            return -1;
+        }
     }
 }
