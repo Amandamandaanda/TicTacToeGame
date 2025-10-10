@@ -51,7 +51,7 @@ public class TicTacToeGame {
                 //Anropar och skriver ut spelplanen
                 DrawGameBoard();
                 //Anropar metoden getPlayersPlacement för att skicka med currentPlayer som sträng
-                //samt kunna returnera spelaren val av position
+                //samt kunna returnera spelarens val av position
                 int placement = scanner.getPlayersPlacement(currentPlayer.toString());
                 //Kollar om spelarens val (placement) är inom sifferintervallet
                 if (placement < 1 || placement > 9) {
