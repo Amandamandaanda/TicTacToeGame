@@ -27,7 +27,7 @@ public class ScannerHandling {
             return scanner.nextInt();
             //"Fångar" felet om det inte är en int utan exempelvis en bokstav
         } catch (InputMismatchException e) {
-            //Om det inte är en siffra som skrivs in returneras -1 som ogiltig inmatning
+            //Om det inte är en siffra som skrivs in returneras -1 som felaktig information
             return -1;
         }
     }
